@@ -1,9 +1,11 @@
 //set button as a js variable
-var buttonEl = document.querySelector('#save-task');
+var formEl = document.querySelector('#task-form');
 //set task container as a variable
 var tasksToDoEl = document.querySelector("#tasks-to-do");
 
 var createTaskHandler = function() {
+    //prevent default web browser refresh on submit
+    event.preventDefault();
     //set variable =  list item creation
     var listItemEl = document.createElement("li");
     //add list item into the task container
@@ -15,7 +17,7 @@ var createTaskHandler = function() {
 }
 
 //listen for button click and create new list item task
-buttonEl.addEventListener("click", createTaskHandler);
+formEl.addEventListener("submit", createTaskHandler);
 
 
 
