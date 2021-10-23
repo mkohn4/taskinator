@@ -84,6 +84,9 @@ var createTaskEl = function(taskDataObj) {
     taskDataObj.id = taskIdCounter;
     //push taskDataObj object into tasks array
     tasks.push(taskDataObj);
+
+    //save to local storage
+    saveTasks();
    
     //add entire list item into the task container
     tasksToDoEl.appendChild(listItemEl);
@@ -167,6 +170,8 @@ for (var i = 0; i < tasks.length; i++) {
         tasks[i].type = taskType;
     }
 };
+    //save tasks
+    saveTasks();
 
     //remove data-task-id attribute
     formEl.removeAttribute("data-task-id");
@@ -213,6 +218,8 @@ var deleteTask = function(taskId) {
     }
     //reassign tasks array to be the same as updatedTaskArr
     tasks = updatedTaskArr;
+    //save to local storage
+    saveTasks();
 };
 
 var taskStatusChangeHandler = function (event) {
@@ -237,9 +244,14 @@ var taskStatusChangeHandler = function (event) {
             tasks[i].status = statusValue;
         }
     };
-    console.log(tasks);
+    //save to local storage
+    saveTasks();
 };
 
+
+var saveTasks = function(){
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 
 //listen for button click and create new list item task
