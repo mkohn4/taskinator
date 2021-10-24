@@ -213,7 +213,7 @@ var deleteTask = function(taskId) {
     for (var i=0; i < tasks.length; i++) {
         //if tasks[i].id doesnt match the value of taskId, keep that task and push into a new array
         if (tasks[i].id !== parseInt(taskId)) {
-            updatedTaskArr.push(task[i]);
+            updatedTaskArr.push(tasks[i]);
         }
     }
     //reassign tasks array to be the same as updatedTaskArr
@@ -251,8 +251,15 @@ var taskStatusChangeHandler = function (event) {
 
 var saveTasks = function(){
     localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+};
 
+var loadTasks = function() {
+    //get task items from localStorage
+    tasks = localStorage.getItem(JSON.parse('tasks'));
+    console.log(tasks);
+    //convert tasks from string format into array of objects
+    //iterates through a tasks array and creates task elements on the page
+};
 
 //listen for button click and create new list item task
 formEl.addEventListener("submit", taskFormHandler);
@@ -260,3 +267,5 @@ formEl.addEventListener("submit", taskFormHandler);
 pageContentEl.addEventListener("click", taskButtonHandler);
 //listens for a change in a dropdown and invokes taskStatusChangeHandler
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
+
+loadTasks();
