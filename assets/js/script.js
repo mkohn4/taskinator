@@ -255,10 +255,69 @@ var saveTasks = function(){
 
 var loadTasks = function() {
     //get task items from localStorage
-    tasks = localStorage.getItem(JSON.parse('tasks'));
+    tasks = localStorage.getItem("tasks", JSON.stringify(tasks));
     console.log(tasks);
-    //convert tasks from string format into array of objects
-    //iterates through a tasks array and creates task elements on the page
+    //if tasks is null, establish it as an empty array
+    if (!tasks) {
+        var tasks = [];
+        return false;
+    } else {
+        //parse tasks variable
+        tasks = JSON.parse(tasks);
+        console.log(tasks);
+        for (i=0; i < tasks.length; i++) {
+            //log current task in loop
+            console.log(tasks[i]);
+            //set current task object id = taskIdCounter
+            tasks[i].id = taskIdCounter;
+            //log current task to see updated id
+            console.log(tasks[i]);
+            //create li element as listItemEl
+            listItemEl = document.createElement('li');
+            //add a class to the li
+            listItemEl.className = "task-item";
+            //add data-task-id attribute to li
+            listItemEl.setAttribute("data-task-id", tasks[i].id);
+            //console log new element
+            console.log(listItemEl);
+            //create div element in taskInfoEl
+            taskInfoEl = document.createElement("div");
+            //assign class of task-info
+            taskInfoEl.className = "task-info";
+            //set inner html of div
+            taskInfoEl.innerHTML = "<h3 class='task-name'>" + tasks[i].name + "</h3><span class='task-type'>" + tasks[i].type + "</span>";
+            //append div task info to the li task items
+            listItemEl.appendChild(taskInfoEl);
+            //create taskActionsEl
+            taskActionsEl = createTaskActions(tasks[i].id);
+            //append taskActionsEl to listItemEl
+            listItemEl.appendChild(taskActionsEl);
+            console.log(listItemEl);
+            //if current task status is to-do, then change status dropdown to to-do
+            if (tasks[i].status === 'to do') {
+                //set select dropdown to first value
+                listItemEl.querySelector("select[name='status-change']").selectedIndex = 0;
+                //append task list item to the To-Dp category list
+                tasksToDoEl.appendChild(listItemEl);
+            } else if (tasks[i].status === 'in progress') {
+                //if task status = in progress, set selected dropdown value to 1
+                listItemEl.querySelector("select[name='status-change']").selectedIndex = 1;
+                tasksInProgressEl.appendChild(listItemEl);
+            } else if (tasks[i].status === 'complete') {
+                //if task status = complete, change dropdown to 2
+                listItemEl.querySelector("select[name='status-change']").selectedIndex = 2;
+                //append list item task to tasksCompletedEl box
+                tasksCompletedEl.appendChild(listItemEl);
+            }
+            taskIdCounter++;
+            console.log(listItemEl);
+
+        }
+
+        //convert tasks from string format into array of objects
+        //iterates through a tasks array and creates task elements on the page
+    }
+
 };
 
 //listen for button click and create new list item task
